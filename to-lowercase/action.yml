@@ -7,15 +7,15 @@ inputs:
 outputs:
   result:
     description: "Lowercase repository name"
-    value: ${{ steps.to_lower_case.outputs.converted_text }}
+    value: ${{ steps.to_lowercase.outputs.converted_text }}
 runs:
   using: "composite"
   steps:
     - name: Convert to lowercase
-      id: to_lower_case
+      id: to_lowercase
       shell: bash
       run: |
-        input_text="${{ inputs.text }}"
-        input_text=$(echo "$input_text" | tr '[:upper:]' '[:lower:]')
+        converted_text="${{ inputs.text }}"
+        converted_text=$(echo "$converted_text" | tr '[:upper:]' '[:lower:]')
         echo "converted_text=$input_text" >> $GITHUB_OUTPUT
         echo ${{ converted_text }}

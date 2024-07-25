@@ -17,5 +17,6 @@ runs:
       run: |
         converted_text="${{ inputs.text }}"
         converted_text=$(echo "$converted_text" | tr '[:upper:]' '[:lower:]')
-        echo "converted_text=$input_text" >> $GITHUB_OUTPUT
+        echo "converted_text=$converted_text" >> $GITHUB_OUTPUT
+        echo "CONVERTED_TEXT=$converted_text" >> $GITHUB_ENV
         echo ${{ converted_text }}

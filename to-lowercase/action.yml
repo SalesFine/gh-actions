@@ -15,7 +15,7 @@ runs:
       id: to_lowercase
       shell: bash
       run: |
-        converted_text=$(echo "${{ inputs.text }}" | tr '[:upper:]' '[:lower:]')
-        echo "converted_text=$converted_text" >> $GITHUB_OUTPUT
-        echo "CONVERTED_TEXT=$converted_text" >> $GITHUB_ENV
-        echo ${{ converted_text }}
+        fuckin_txt=$(echo "${{ inputs.text }}" | tr '[:upper:]' '[:lower:]')
+        echo "converted_text=$fuckin_txt" >> $GITHUB_OUTPUT
+        echo "CONVERTED_TEXT=$fuckin_txt" >> $GITHUB_ENV
+        echo ${{ fuckin_txt }}

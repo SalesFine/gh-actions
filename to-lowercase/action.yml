@@ -16,6 +16,7 @@ runs:
       shell: bash
       run: |
         fuckin_txt=$(echo "${{ inputs.text }}" | tr '[:upper:]' '[:lower:]')
-        echo "converted_text=$fuckin_txt" >> $GITHUB_OUTPUT
-        echo "CONVERTED_TEXT=$fuckin_txt" >> $GITHUB_ENV
+        echo "defaultenvvar=$fuckin_txt" >> $GITHUB_OUTPUT
+        echo "DEFAULTENVVAR=$fuckin_txt" >> $GITHUB_ENV
+        echo ${{ defaultenvvar }}
         echo ${{ fuckin_txt }}

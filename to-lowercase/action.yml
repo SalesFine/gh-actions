@@ -7,7 +7,7 @@ inputs:
 outputs:
   result:
     description: "Lowercase repository name"
-    value: ${{ steps.to_lowercase.outputs.converted_text }}
+    value: "Hello World"
 runs:
   using: "composite"
   steps:

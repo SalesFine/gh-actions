@@ -12,12 +12,9 @@ runs:
   using: "composite"
   steps:
     - name: Convert to lowercase
-      id: to_lowercase
+      # id: to_lowercase
       shell: bash
       run: |
         fuckin_txt=$(echo "${{ inputs.text }}" | tr '[:upper:]' '[:lower:]')
-        # echo "defaultenvvar=$fuckin_txt" >> $GITHUB_OUTPUT
         echo "DEFAULTENVVAR=$fuckin_txt" >> $GITHUB_ENV
         echo "$DEFAULTENVVAR"
-        # echo ${{ defaultenvvar }}
-        # echo ${{ fuckin_txt }}

@@ -13,5 +13,6 @@ runs:
     - name: Convert to lowercase
       shell: bash
       run: |
+        echo -e "env_var is ${{ inputs.env_var }}\ntext is ${{ inputs.text }}"
         input_to_convert=$(echo "${{ inputs.text }}" | tr '[:upper:]' '[:lower:]')
         echo "$env_var=$input_to_convert" >> $GITHUB_ENV

@@ -6,7 +6,7 @@ inputs:
     required: true
   env_var:
     description: "Environment variable to assign to"
-    required: true
+    # required: true
 runs:
   using: "composite"
   steps:
@@ -15,4 +15,4 @@ runs:
       run: |
         echo -e "env_var is ${{ inputs.env_var }}\ntext is ${{ inputs.text }}"
         input_to_convert=$(echo "${{ inputs.text }}" | tr '[:upper:]' '[:lower:]')
-        echo "${env_var}=${input_to_convert}" >> $GITHUB_ENV
+        echo "REPO=$input_to_convert" >> $GITHUB_ENV

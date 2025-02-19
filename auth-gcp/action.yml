@@ -32,4 +32,4 @@ runs:
 
     - name: Set gcloud Project
       shell: bash
-      run: gcloud config set project $(cat "${{ inputs.credentials_file }}" | base64 -d | jq '.project_id')
+      run: gcloud config set project $(echo "${{ inputs.credentials_file }}" | base64 -d | jq '.project_id')

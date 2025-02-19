@@ -9,6 +9,8 @@ inputs:
 runs:
   using: composite
   steps:
+    - uses: actions/checkout@v4
+
     - name: DigitalOcean Auth
       uses: digitalocean/action-doctl@v2
       with:

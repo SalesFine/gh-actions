@@ -12,6 +12,8 @@ inputs:
 runs:
   using: composite
   steps:
+    - uses: actions/checkout@v4
+
     - name: Install OCI CLI
       shell: bash
       run: |

@@ -16,7 +16,8 @@ runs:
       shell: bash
       run: |
         mkdir -p $HOME/.config/gcloud/
-        echo '${{ inputs.credentials_file }}' | base64 -d  > $HOME/.config/gcloud/application_default_credentials.json
+        echo "${{ inputs.credentials_file }}" | base64 -d 
+        echo "${{ inputs.credentials_file }}" | base64 -d  > $HOME/.config/gcloud/application_default_credentials.json
         echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/application_default_credentials.json" >> "$GITHUB_ENV"
 
     - name: Authenticate With Google Cloud

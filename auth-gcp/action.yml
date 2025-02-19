@@ -23,7 +23,7 @@ runs:
     - name: Authenticate With Google Cloud
       uses: google-github-actions/auth@v2
       with:
-        credentials_json: "/home/runner/.config/gcloud/application_default_credentials.json"
+        credentials_json: ${{ inputs.credentials_file }}
 
     - name: Setup gcloud SDK
       uses: google-github-actions/setup-gcloud@v2

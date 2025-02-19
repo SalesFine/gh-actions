@@ -29,7 +29,3 @@ runs:
       uses: google-github-actions/setup-gcloud@v2
       with:
         version: latest
-
-    # - name: Set gcloud Project
-    #   shell: bash
-    #   run: gcloud config set project $(echo "${{ inputs.credentials_file }}" | base64 -d | jq '.project_id')

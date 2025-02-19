@@ -26,5 +26,6 @@ runs:
     - name: Install Ansible
       shell: bash
       run: |
-        pip install ansible requests google-auth
+        pip install ansible requests google-auth oci-cli
+        ansible-galaxy collection install oracle.oci
         ansible --version

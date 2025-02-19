@@ -1,0 +1,15 @@
+name: GCP Authenticate
+description: Authenticate with Google Cloud Platform
+
+inputs:
+  digital_ocean_token:
+    description: Digital Ocean's CLI token
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: DigitalOcean Auth
+      uses: digitalocean/action-doctl@v2
+      with:
+        token: ${{ inputs.digital_ocean_token }}

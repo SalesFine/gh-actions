@@ -1,0 +1,34 @@
+name: Setup VPN access
+description: Setup VPN access to gain connectivity to SalesFine internal network
+
+inputs:
+  username:
+    description: VPN user's username
+    required: true
+  password:
+    description: VPN user's password
+    required: true
+  host:
+    description: VPN server's host [domain or IP]
+    required: false
+    default: tunnel.salesfine.co
+  certificate_fingerprint:
+    description: SHA256 Fingerprint of the server's cert
+    required: true
+
+runs:
+  using: "composite"
+
+  steps:
+    - uses: actions/checkout@v4
+
+    - name: Install OpenConnect client
+      shell: bash
+      run: |
+        sudo apt update -y
+        sudo apt install openconnect -y
+
+    - name: Connect to VPN
+      shell: bash
+      run: |
+        sudo openconnect "${{ inputs.host }}" -b --servercert ${{ inputs.certificate_fingerprint }} --user="${{ inputs.username }}" --passwd-on-stdin <<< "${{ inputs.password }}"

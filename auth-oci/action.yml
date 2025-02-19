@@ -1,0 +1,42 @@
+name: OCI Authenticate
+description: Authenticate with Oracle Cloud
+
+inputs:
+  oci_config_file:
+    description: OCI's auth configuration file encoded content
+    required: true
+  oci_private_key_file:
+    description: OCI's private key file encoded content
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Install OCI CLI
+      shell: bash
+      run: |
+        bash -c "$(curl -L https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh)" -- --accept-all-defaults
+        echo "$HOME/bin" >> $GITHUB_PATH
+
+    - name: Decode and Write Config File
+      shell: bash
+      run: |
+        mkdir -p $HOME/.oci
+        echo "${{ inputs.oci_config_file }}" | base64 -d > $HOME/.oci/config
+
+    - name: Decode and Write OCI's Private Key
+      shell: bash
+      run: echo "${{ inputs.oci_private_key_file }}" | base64 -d > $HOME/.oci/oci_cli_api_key.pem
+
+    - name: Append Private Key to Config File
+      shell: bash
+      run: echo "key_file=$HOME/.oci/oci_cli_api_key.pem" >> $HOME/.oci/config
+
+    - name: Configure files permissions
+      shell: bash
+      run: |
+        echo "${{ inputs.oci_private_key_file }}" | base64 -d >> "$HOME/.oci/oci_cli_api_key.pem"
+        sudo chown -R runner "$HOME/.oci"
+        sudo chmod 700 "$HOME/.oci"
+        sudo chmod 600 "$HOME/.oci/config"
+        sudo chmod 600 "$HOME/.oci/oci_cli_api_key.pem"

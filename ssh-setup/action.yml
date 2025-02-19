@@ -1,0 +1,52 @@
+name: SSH key setup
+description: Setup SSH Key for used account to connect
+
+inputs:
+  ssh_private_key_file:
+    description: base64 encoded private key content
+    required: true
+  jump_server_host:
+    description: jump server host (optional)
+    required: false
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: Write SSH Private Key in User's Home Dir
+      shell: bash
+      run: |
+        mkdir -p $HOME/.ssh
+        echo "${{ inputs.ssh_private_key_file }}" | base64 -d > ~/.ssh/id_ed25519_config_admin
+        chmod 600 ~/.ssh/id_ed25519_config_admin
+
+    - name: Configure SSH daemon
+      shell: bash
+      run: |
+        if [ -n "${{ inputs.jump_server_host }}" ]; then
+            CONFIG="Host jump
+          Hostname ${{ inputs.jump_server_host }}
+          User config_admin
+          IdentityFile ~/.ssh/id_ed25519_config_admin
+          StrictHostKeyChecking no
+          UserKnownHostsFile /dev/null
+
+        Host 10.*.*.*
+          User config_admin
+          ControlMaster auto
+          ControlPersist 60s
+          IdentityFile ~/.ssh/id_ed25519_config_admin
+          StrictHostKeyChecking no
+          UserKnownHostsFile /dev/null
+          ProxyJump jump"
+        else
+            CONFIG="Host 10.*.*.*
+          User config_admin
+          ControlMaster auto
+          ControlPersist 60s
+          IdentityFile ~/.ssh/id_ed25519_config_admin
+          StrictHostKeyChecking no
+          UserKnownHostsFile /dev/null"
+        fi
+
+        echo "$CONFIG" > ~/.ssh/config

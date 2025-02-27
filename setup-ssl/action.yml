@@ -1,0 +1,37 @@
+name: SSL certificate setup
+description: Decode and Write SSL Certificate and SSL_Certificate_key
+
+inputs:
+  ssl_certificate_file:
+    description: base64 encoded SSL certificate
+    required: true
+  ssl_certificate_key_file:
+    description: base64 encoded SSL Private Key
+    required: true
+
+outputs:
+  ssl-certificate-file: ${{ steps.ssl-certificate-key.outputs.cert_key_path }}
+  ssl-certificate-key-file: ${{ steps.ssl-certificate.outputs.cert_path }}
+
+runs:
+  using: "composite"
+
+  steps:
+    - uses: actions/checkout@v4
+
+    - name: Create Directory
+      run: |
+        mkdir -p $HOME/ssl/
+        echo "Created Dir $HOME/ssl/"
+
+    - name: Decode and Write SSL Certificate
+      id: ssl-certificate
+      run: |
+        echo "${{ inputs.ssl_certificate_file }}" | base64 -d > $HOME/ssl/ssl-public-cert.pem
+        echo "cert_path=$HOME/ssl/ssl-public-cert.pem" >> $GITHUB_OUTPUT
+
+    - name: Decode and Write SSL Certificate Key
+      id: ssl-certificate-key
+      run: |
+        echo ${{ inputs.ssl_certificate_key_file }} | base64 -d > $HOME/ssl/ssl-cert-key.pem
+        echo "cert_key_path=$HOME/ssl/ssl-cert-key.pem" >> $GITHUB_OUTPUT
